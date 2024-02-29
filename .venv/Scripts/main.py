@@ -16,14 +16,13 @@ album = client.albums_with_tracks(MY_ALBUM_ID)
 tracks = []
 
 
-text = 'АЛЬБОМ\n\n'
+text = f'АЛЬБОМ {album.title}\n\n'
 text += f'{album.title}\n'
 text += f"Исполнитель: {'& '.join([artist.name for artist in album.artists])}\n"
 text += f'{album.year} · {album.genre}\n'
 
-text += f'\nТреки альбома {album.title}:\n'
+text += f'\nТРЕКИ АЛЬБОМА:\n\n'
 
-print(text)
 
 
 for i, volume in enumerate(album.volumes):
@@ -32,11 +31,17 @@ for i, volume in enumerate(album.volumes):
     tracks += volume
 
 
-for track in tracks:
-    if isinstance(track, str):
-        print(track)
-    else:
-        artists = ''
-        if track.artists:
-            item = f"{track.title} - {' & '.join([artist.name for artist in track.artists])}"
-        print(item)
+with open('output.txt', 'w+') as file:
+
+    file.write(text)
+
+    for track in tracks:
+        if isinstance(track, str):
+            print(track)
+        else:
+            artists = ''
+            if track.artists:
+                item = f"{track.title} - {' & '.join([artist.name for artist in track.artists])}\n"
+            file.write(item)
+
+file.close()
